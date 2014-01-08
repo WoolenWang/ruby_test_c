@@ -1,0 +1,26 @@
+/**
+# Author: Woolen.Wang
+# Email: just_woolen＠qq.com
+# File Name: gtest_main.c
+=========================================================================
+ Description: 
+    这个是一个Gtest的C源程序测试入口模板
+ Edit History: 
+   2014-01-07    File created.
+=========================================================================
+**/
+#include "gtest/gtest.h"
+<%=
+     include_str = ""
+     @test_include_files.each do |include_file|
+         include_str << "#include \"#{include_file}\"\n"
+     end
+     include_str
+%>
+
+int main(int argc, char** argv)
+{
+        ::testing::InitGoogleTest(&argc, argv);
+        return RUN_ALL_TESTS();
+}
+
