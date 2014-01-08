@@ -1,12 +1,11 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__))
 
-guard :rspec do
-  watch(%r{^spec/.+_spec\.rb$})
+guard :rspec,:version => 2, :_run_all_after_pass => false do
+  watch(%r{^src/.+_spec\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
-
-  # Rails example
 
   # Capybara features specs
   watch(%r{^app/views/(.+)/.*\.(erb|haml|slim)$})     { |m| "spec/features/#{m[1]}_spec.rb" }
@@ -17,13 +16,25 @@ guard :rspec do
 end
 
 
-guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
-  watch('config/application.rb')
-  watch('config/environment.rb')
-  watch('config/environments/test.rb')
-  watch(%r{^config/initializers/.+\.rb$})
+
+## 这是设置sport跟着rspec启动么？
+#guard 'spork', :rspec_env => {'RAILS_ENV' => 'test'} do
+#    watch('config/application.rb')
+#    watch('config/environment.rb')
+#    watch(%r{^config/environments/.+\.rb$})
+#    watch(%r{^config/initializers/.+\.rb$})
+#    watch('Gemfile')
+#    watch('Gemfile.lock')
+#    watch('spec/spec_helper.rb')  { "spec" }
+#    #watch('test/test_helper.rb')
+#    watch('spec/support/')
+#end
+guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' },  :rspec_env => { 'RAILS_ENV' => 'test' } do # 不需要cucumber，暂时
+  watch(%r{^config/initial_proj/.+\.rb$})
   watch('Gemfile.lock')
   watch('spec/spec_helper.rb') { :rspec }
-  watch('test/test_helper.rb') { :test_unit }
-  watch(%r{features/support/}) { :cucumber }
+  #watch('test/test_helper.rb') { :test_unit }
+  #watch(%r{features/support/}) { :cucumber }
+  watch('spec/support/')
+  watch(%r{^src/.+_spec\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 end

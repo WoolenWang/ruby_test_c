@@ -18,3 +18,7 @@ case RUBY_PLATFORM
         gem 'rb-fsevent'
         gem 'growl'
 end
+# 要使用rake
+gem 'rake'
+# 指定版本使用mocha进行mock对象
+gem 'mocha','0.14.0'

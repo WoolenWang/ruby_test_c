@@ -1,6 +1,6 @@
 require 'erb'
 class TemplateBase
-    @open_file_path = ''
+    attr_accessor :test_include_files
     def initialize(file_path)
         @open_file_path = file_path
     end

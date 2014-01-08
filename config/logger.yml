@@ -1,0 +1,15 @@
+# coding: utf8
+#  =============================切记本配置文件的总体换行格式等不可改变,否则会出问题 ================================================
+dev:
+  level: debug
+  stdout: 1
+  file: ./log/dev.log
+  roll_type: file_size
+  roll_param: 5M          # support K/M
+pro:
+  level: info
+  stdout: 1
+  file: ./log/pro.log
+  roll_type: daily
+  roll_param:               # if use daily, this param should be null
+default: dev

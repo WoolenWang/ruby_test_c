@@ -1,9 +1,8 @@
 # -*- encoding : utf-8 -*-
 require 'yaml'
-module TestTool
-    class ConfigManager
-        class << self
-            attr_accessor :root
+class ConfigManager
+    class << self
+        attr_accessor :root
 
 =begin
 	功能: 获取配置
@@ -19,17 +18,16 @@ module TestTool
 		  ConfigureManager.root = $root
 		  puts ConfigureManager.get("test")['test']
 =end
-            def get(name)
-                name += ".yml" unless name.match(/.yml$/)
-                name = name.to_gbk
-                raise "not set root path, please use ConfigureManager.root=() to set it" if root.nil?
-                path = File.join(root, "Config", name) #File.join(root,"config",name).to_gbk
-                path = File.expand_path(path)
-                                                       #~ path = Pathname.new(path).realpath
-                raise "The special config path #{path.to_utf8} not exist" unless File.exist?(path)
-                                                       #  because empty file when get 'false' so we add {} return value.
-                YAML.load_file(path) || {}
-            end
+        def get(name)
+            name += ".yml" unless name.match(/.yml$/)
+            name = name.to_gbk
+            raise "not set root path, please use ConfigureManager.root=() to set it" if root.nil?
+            path = File.join(root, "Config", name) #File.join(root,"config",name).to_gbk
+            path = File.expand_path(path)
+            #~ path = Pathname.new(path).realpath
+            raise "The special config path #{path.to_utf8} not exist" unless File.exist?(path)
+            #  because empty file when get 'false' so we add {} return value.
+            YAML.load_file(path) || {}
         end
     end
 end
