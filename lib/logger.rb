@@ -8,7 +8,7 @@ class MyLogger # :nodoc: all
     include SystemHelper
     LEVELS = ["DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
     COLORS = { 'DEBUG' => 'white', 'INFO' => 'green', 'WARN' => 'yellow', 'ERROR' => 'purple', 'FATAL' => 'red' }
-    WIN_PRINTER = Pathname.new(File.join(__FILE__, '..', 'puts_color.exe')).realpath.to_s
+    WIN_PRINTER = Pathname.new(File.join(__FILE__, '..', 'bin', 'puts_color.exe')).realpath.to_s
     attr_reader :file, :stdout, :name
     attr_accessor :level
 
@@ -197,13 +197,16 @@ end
 
 
 class SingleLogger
+    class << self
+        attr_accessor :logger_config,:my_logger
+    end
     def self.get_conf
-        @@logger_config ||= YAML.load_file(File.expand_path(File.join(ConfigManager.root, 'config', 'logger.yml')))
-        @@logger_config
+        SingleLogger.logger_config ||= YAML.load_file(File.expand_path(File.join(ConfigManager.root, 'config', 'logger.yml')))
+        SingleLogger.logger_config
     end
 
     key = get_conf['default']
-    @@mylogger ||= MyLogger.new({ :stdout => get_conf[key]["stdout"], :name => key,
+    SingleLogger.my_logger ||= MyLogger.new({ :stdout => get_conf[key]["stdout"], :name => key,
                                   :file => File.join(ConfigManager.root, get_conf[key]["file"]),
                                   :roll_type => get_conf[key]["roll_type"],
                                   :roll_param => get_conf[key]["roll_param"],
@@ -211,20 +214,20 @@ class SingleLogger
                                   :caller => 2 })
 
     def self.new(*args)
-        @@mylogger || super(*args)
+        SingleLogger.my_logger || super(*args)
     end
 
     def self.get_logger
-        @@mylogger || self.new()
+        SingleLogger.my_logger || self.new()
     end
 
     def initialize(*args)
-        @@mylogger || super(*args)
+        SingleLogger.my_logger || super(*args)
     end
 
 
     def self.method_missing(*arg)
-        @@mylogger.send(*arg)
+        SingleLogger.my_logger.send(*arg)
     end
 end
 module ToolLogger
