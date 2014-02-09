@@ -2,7 +2,7 @@
 require 'yaml'
 class ConfigManager
     class << self
-        attr_accessor :root
+        attr_accessor :project_root
 
 =begin
 	功能: 获取配置

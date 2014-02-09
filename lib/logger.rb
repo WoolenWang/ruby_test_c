@@ -139,11 +139,12 @@ class MyLogger # :nodoc: all
     def log(_level, msg, err = nil)
         check_split_file if @file
         err_msg = nil
-        if caller[@caller].respond_to? :gsub
-            line = caller[@caller].gsub(ConfigManager.root, '')
-            line = caller[@caller + 2].gsub(ConfigManager.root, '') if line.include? '/Util/diy-pcap/diy/logger.rb'
+        line = ''
+        if caller[@caller].respond_to? :include?
+            #my_puts "proj root ::#{ConfigManager.project_root}"
+            line = find_the_project_caller_line(@caller)
         else
-            line = caller[1].gsub(ConfigManager.root, '')
+            line = caller[1].gsub(ConfigManager.project_root, '')
         end
         _msg = "#{_level}#{Time.now.strftime("%y-%m-%d %H:%M:%S")}\n#{line}: #{msg}"
         _msg += "\n" if _msg[-1] != "\n"
@@ -159,28 +160,48 @@ class MyLogger # :nodoc: all
         @last_log_time = Time.now
     end
 
+    def find_the_project_caller_line(the_caller)
+        line = ''
+        the_caller += 1
+        loop do
+            if caller[the_caller].respond_to? :include?
+                #my_puts "caller::#{the_caller}====#{caller[the_caller]}"
+                if caller[the_caller].include? ConfigManager.project_root and not caller[the_caller].include? __FILE__
+                    #my_puts "===get the caller ::#{the_caller} #{caller[the_caller]} "
+                    line = caller[the_caller].gsub(ConfigManager.project_root, '')
+                    break
+                end
+                the_caller += 1
+            else
+                line = caller[2].gsub(ConfigManager.project_root, '')
+                break
+            end
+        end
+        line
+    end
+
     def soft(*msg)
-        log("SOFT ", msg.join(','), nil) if true
+        log('SOFT ', msg.join(','), nil) if true
     end
 
     def debug(msg, err = nil)
-        log("DEBUG ", msg, err) if @level == 0
+        log('DEBUG ', msg, err) if @level == 0
     end
 
     def info(msg, err = nil)
-        log("INFO  ", msg, err) if @level <= 1
+        log('INFO  ', msg, err) if @level <= 1
     end
 
     def warn(msg, err = nil)
-        log("WARN  ", msg, err) if @level <= 2
+        log('WARN  ', msg, err) if @level <= 2
     end
 
     def error(msg, err = nil)
-        log("ERROR ", msg, err) if @level <= 3
+        log('ERROR ', msg, err) if @level <= 3
     end
 
     def fatal(msg, err = nil)
-        log("FATAL ", msg, err)
+        log('FATAL ', msg, err)
     end
 
     def debug?
@@ -201,13 +222,13 @@ class SingleLogger
         attr_accessor :logger_config,:my_logger
     end
     def self.get_conf
-        SingleLogger.logger_config ||= YAML.load_file(File.expand_path(File.join(ConfigManager.root, 'config', 'logger.yml')))
+        SingleLogger.logger_config ||= YAML.load_file(File.expand_path(File.join(ConfigManager.project_root, 'config', 'logger.yml')))
         SingleLogger.logger_config
     end
 
     key = get_conf['default']
     SingleLogger.my_logger ||= MyLogger.new({ :stdout => get_conf[key]["stdout"], :name => key,
-                                  :file => File.join(ConfigManager.root, get_conf[key]["file"]),
+                                  :file => File.join(ConfigManager.project_root, get_conf[key]["file"]),
                                   :roll_type => get_conf[key]["roll_type"],
                                   :roll_param => get_conf[key]["roll_param"],
                                   :level => get_conf[key]["level"],
@@ -253,9 +274,9 @@ module ToolLogger
 
     module_function :log, :warn, :debug, :error, :fatal
 
-    def method_missing(*arg)
-        SingleLogger.get_logger.send(*arg)
-    end
+    #def method_missing(*arg)
+    #    SingleLogger.get_logger.send(*arg)
+    #end
 
     def self.method_missing(*arg)
         SingleLogger.get_logger.send(*arg)

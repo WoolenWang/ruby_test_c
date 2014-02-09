@@ -1,15 +1,23 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__))
+require 'lib/logger'
 
 guard :rspec,:version => 2, :_run_all_after_pass => false do
-  watch(%r{^src/.+_spec\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
-  watch('spec/spec_helper.rb')  { "spec" }
+  watch('spec/spec_helper.rb')  { 'spec' }
 
-  # Capybara features specs
-  watch(%r{^app/views/(.+)/.*\.(erb|haml|slim)$})     { |m| "spec/features/#{m[1]}_spec.rb" }
+  watch(%r{^spec/(.+)_spec\.rb$}) { |m|
+      SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
+      "spec/#{m[1]}_spec.rb" }
 
+  watch(%r{^src/(.+)\.rb$}) { |m|
+      SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
+      "spec/#{m[1]}_spec.rb"
+  }
+  watch(%r{^lib/(.+)\.rb$})     { |m|
+      SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
+      "spec/lib/#{m[1]}_spec.rb"
+  }
   # Turnip features and steps
   watch(%r{^spec/acceptance/(.+)\.feature$})
   watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/acceptance' }
@@ -36,5 +44,5 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' },  :rspec_env => { 'RAI
   #watch('test/test_helper.rb') { :test_unit }
   #watch(%r{features/support/}) { :cucumber }
   watch('spec/support/')
-  watch(%r{^src/.+_spec\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
+  #watch(%r{^spec/.+_spec\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 end
