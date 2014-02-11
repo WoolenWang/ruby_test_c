@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'rspec'
 require 'src/file_parser/c_file_parser'
 describe '解析C语言文件' do
@@ -16,6 +17,10 @@ describe '解析C语言文件' do
         @c_file_parser.functions['max'][0].return_type.should eq('int')
         @c_file_parser.functions['max'][0].param_array['a'].should eq('int')
         @c_file_parser.functions['max'][0].param_array['b'].should eq('int')
+    end
+
+    it 'should get unit test annotation' do
+        @c_file_parser.functions['max'][0].unit_test_annotation.raw_str.should include('unit_test')
     end
 
 end

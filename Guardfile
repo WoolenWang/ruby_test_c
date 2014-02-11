@@ -1,4 +1,4 @@
-# A sample Guardfile
+# -*- encoding : utf-8 -*-
 # More info at https://github.com/guard/guard#readme
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__))
 require 'lib/logger'

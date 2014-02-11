@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'erb'
 class TemplateBase
     attr_accessor :test_include_files

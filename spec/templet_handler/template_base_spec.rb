@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'spec/spec_helper'
 require 'src/templet_handler/template_base'
 describe 'TemplateBase' do
