@@ -8,6 +8,7 @@ module FileParser
         UNIT_TEST_KEY = 'unit_test'
         INCLUDE_REGEX = Regexp.new('\#include\s*[<"]+(?<include_files>[\w+\.h]+)[">]*')
         FUNCTION_REGEX = Regexp.new('(?:(?<function_type>extern|static)(?:\s+)?(?<inline>inline)?(?:\s+))?(?:(?<return_type>(?:[a-zA-Z_]\w*)(?:\s*\*)?)\s+(?<function_name>[a-zA-Z_]\w*))\s*(?<param_str>\([^)]*?\))\s*(?<function_body>(?:\{([^{}]|\{([^{}]|\{[^{}]*\})*\})*\}))')
+        ONE_PARAM_REGEX = Regexp.new '\s*(\w+)\s*(\w+)\s*'
         # INCLUDE_REGEX = Regexp.new('(?<!(\s*/\*\s*)|(\s*//\s*))\#include\s*[<"]+([\w+\.h]+)[">]*(?!\s*\*/\s*)')
         class Function < BaseType
             RETURN_TYPE = STATIC_TYPE
@@ -22,12 +23,12 @@ module FileParser
 
             def parse_param_str(param_str)
                 tmp_param_array = {}
-                no_squa_param_str = param_str[1...-1]
-                debug '脱去括号后的参数字符串是：：' + no_squa_param_str
-                param_str_array = no_squa_param_str.split ','
+                no_bracket_param_str = param_str[1...-1]
+                debug '脱去括号后的参数字符串是：：' + no_bracket_param_str
+                param_str_array = no_bracket_param_str.split ','
                 debug '脱掉逗号的参数数组是：：' + param_str_array.to_s
                 param_str_array.each do |one_param_str|
-                    match_data = /\s*(\w+)\s*(\w+)\s*/.match one_param_str
+                    match_data = ONE_PARAM_REGEX.match one_param_str
                     tmp_param_array[match_data[2]] = match_data[1]
                 end
                 debug '生成最后的hash：：' + tmp_param_array.to_s
@@ -35,7 +36,7 @@ module FileParser
             end
         end
 
-        class INCLUDE_FILE < BaseType
+        class IncludeFile < BaseType
             attr_accessor :file_name,:include_files,:define_functions
             def initialize(file_name)
                 @file_name = file_name

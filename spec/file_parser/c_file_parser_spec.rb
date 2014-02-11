@@ -19,7 +19,7 @@ describe '解析C语言文件' do
         @c_file_parser.functions['max'][0].param_array['b'].should eq('int')
     end
 
-    it 'should get unit test annotation' do
+    it 'should 解析到unit test的注解' do
         @c_file_parser.functions['max'][0].unit_test_annotation.raw_str.should include('unit_test')
     end
 

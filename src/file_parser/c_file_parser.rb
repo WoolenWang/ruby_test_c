@@ -15,12 +15,12 @@ module FileParser
         end
 
         def parse
-            setup_functions
-            setup_include_files
-            setup_unit_test_annotation
+            parse_functions
+            parse_include_files
+            parse_unit_test_annotation
         end
 
-        def setup_functions
+        def parse_functions
             function_type = CType::FUNCTION_REGEX.named_captures['function_type'][0] -1
             inline = CType::FUNCTION_REGEX.named_captures['inline'][0] -1
             return_type_index = CType::FUNCTION_REGEX.named_captures['return_type'][0] -1
@@ -43,27 +43,30 @@ module FileParser
             @functions
         end
 
-        def setup_include_files
+        def parse_include_files
             index = CType::INCLUDE_REGEX.named_captures['include_files'][0] -1
             @file_str.scan CType::INCLUDE_REGEX do |match_data|
                 include_file_name = match_data[index]
-                @include_files[include_file_name] = CType::INCLUDE_FILE.new(include_file_name)
+                @include_files[include_file_name] = CType::IncludeFile.new(include_file_name)
             end
             debug @include_files
             @include_files
         end
 
-        def setup_unit_test_annotation
+        def parse_unit_test_annotation
             annotation_str_index = CType::UNIT_TEST_ANNOTATION_REGEX.named_captures['annotation_str'][0] -1
             @file_str.scan CType::UNIT_TEST_ANNOTATION_REGEX do |match_data|
+                # 获取所有注解的字符串
                 annotation_str = match_data[annotation_str_index]
                 if not annotation_str.nil? and annotation_str != '' and annotation_str.include? CType::UNIT_TEST_KEY
+                    # 根据注解字符串种是否有关键字确定是否单元测试注解
                     debug "the unit test annotation is \n" + annotation_str
-                    function = find_unit_test_annotation_function(annotation_str)
+                    find_unit_test_annotation_function(annotation_str)
                 end
             end
         end
 
+        # 找到单元测试所属的函数，并挂载到对应的函数上面
         def find_unit_test_annotation_function(annotation_str)
             functions_index_key_array = @functions_index.keys.sort
             annotation_str_key = @file_str.index(annotation_str)
@@ -73,6 +76,7 @@ module FileParser
                     return @functions_index[functions_index_key_array[i]]
                 end
             end
+            error '无法找到单元测试所属的函数～！！！'
             nil
         end
     end
