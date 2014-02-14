@@ -173,7 +173,7 @@ class MyLogger # :nodoc: all
                 end
                 the_caller += 1
             else
-                line = caller[2].gsub(ConfigManager.project_root, '')
+                line = caller[3].gsub(ConfigManager.project_root, '')
                 break
             end
         end
