@@ -17,10 +17,15 @@ Edit History:
 * param b 数2
 */
 /**
-*unit_test
-*input 1,2 should return 2
-*input 1,3 should return 3
-*input 2,4 should return 4
+*unit_test:
+*   before_action:
+*       do_nothing
+*   user_case:
+*       input 1,2 should return 2
+*       input 1,3 should return 3
+*       input 2,4 should return 4
+*   after_action:
+*       do_nothing
 */
 int max(int a, int b)
 {

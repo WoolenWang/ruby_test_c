@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'src/file_parser/base_file_parser'
+require 'src/file_parser/unit_test_annotation'
 require 'src/file_parser/c_type'
 require 'digest/md5'
 module FileParser
@@ -15,8 +16,11 @@ module FileParser
         end
 
         def parse
+            #  解析函数，获取函数相关的东西
             parse_functions
+            #  解析include文件
             parse_include_files
+            #  解析单元测试注解
             parse_unit_test_annotation
         end
 
@@ -34,7 +38,7 @@ module FileParser
                 param_str = match_data[param_str_index]
                 function_body = match_data[function_body_index]
                 function_str_index = @file_str.index function_body
-                function = CType::Function.new(function_name,return_type,param_str,function_body,function_str_index)
+                function = C_Function.new(function_name,return_type,param_str,function_body,function_str_index)
                 @functions[function_name] ||= []
                 @functions[function_name] << function
                 @functions_index[function_str_index] = function
@@ -47,7 +51,7 @@ module FileParser
             index = CType::INCLUDE_REGEX.named_captures['include_files'][0] -1
             @file_str.scan CType::INCLUDE_REGEX do |match_data|
                 include_file_name = match_data[index]
-                @include_files[include_file_name] = CType::IncludeFile.new(include_file_name)
+                @include_files[include_file_name] = C_IncludeFile.new(include_file_name)
             end
             debug @include_files
             @include_files
@@ -72,7 +76,7 @@ module FileParser
             annotation_str_key = @file_str.index(annotation_str)
             0.upto(functions_index_key_array.length-1) do |i|
                 if functions_index_key_array[i] > annotation_str_key
-                    @functions_index[functions_index_key_array[i]].unit_test_annotation = CType::UnitTestAnnotation.new(annotation_str)
+                    @functions_index[functions_index_key_array[i]].unit_test_annotation = FileParser::C_UnitTestAnnotation.new(annotation_str)
                     return @functions_index[functions_index_key_array[i]]
                 end
             end

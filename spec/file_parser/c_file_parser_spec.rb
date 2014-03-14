@@ -23,4 +23,8 @@ describe '解析C语言文件' do
         @c_file_parser.functions['max'][0].unit_test_annotation.raw_str.should include('unit_test')
     end
 
+    it 'should 获取到before_action字符串包含do_nothing' do
+        @c_file_parser.functions['max'][0].unit_test_annotation.raw_str.should include('unit_test')
+    end
+
 end
