@@ -11,7 +11,5 @@ class BaseAnnotationAnalyzer < BaseClass
         else
             str = annotation
         end
-
-
     end
 end

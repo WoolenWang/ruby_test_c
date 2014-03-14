@@ -7,6 +7,8 @@ module FileParser
             attr_accessor :common_parser_config
         end
 
+        attr_accessor :file_path
+
         def initialize(file_path)
             @file_path = file_path
             read_file_to_str

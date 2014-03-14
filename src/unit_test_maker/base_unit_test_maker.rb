@@ -1,2 +1,0 @@
-class BaseUnitTestMaker
-end

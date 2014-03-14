@@ -4,7 +4,7 @@ require 'src/file_parser/unit_test_annotation'
 require 'src/file_parser/c_type'
 require 'digest/md5'
 module FileParser
-    class CFileParser < BaseFileParser
+    class C_FileParser < BaseFileParser
 
         attr_accessor :functions,:include_files,:unit_test_annotations
 

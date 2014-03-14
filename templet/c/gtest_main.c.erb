@@ -18,6 +18,22 @@
      include_str
 %>
 
+<%=
+     before_action_str = ""
+     @test_before_actions.each do |before_action|
+#TODO 需要增加before action的解析部分
+        before_action_str<< "// \"#{before_action}\"\n"
+     end
+     before_action_str
+%>
+<%=
+     user_case_str = ""
+     @test_user_cases.each do |user_case|
+#TODO 需要增加before action的解析部分
+         user_case_str << "// \"#{user_case}\"\n"
+     end
+     user_case_str
+%>
 int main(int argc, char** argv)
 {
         ::testing::InitGoogleTest(&argc, argv);

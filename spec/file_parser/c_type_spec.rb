@@ -5,7 +5,7 @@ require 'src/file_parser/c_type'
 describe 'C语言的相关类型获取' do
 
     before :each do
-        @c_file_parser = FileParser::CFileParser.new(File.join(ConfigManager.project_root, 'spec/test_data/foo_test/foo.c'))
+        @c_file_parser = FileParser::C_FileParser.new(File.join(ConfigManager.project_root, 'spec/test_data/foo_test/foo.c'))
         @c_file_parser.parse
         @c_annotation = @c_file_parser.functions['max'][0].unit_test_annotation
     end
