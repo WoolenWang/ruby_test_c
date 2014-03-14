@@ -7,8 +7,5 @@ class GTest_TestRunner < BaseTestRunner
         FileParser::C_FileParser.new(src_file)
     end
 
-
-
-
 end
 

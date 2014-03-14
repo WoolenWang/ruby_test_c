@@ -9,11 +9,11 @@ module TestMaker
             test_template = TemplateGTest.new(GTEST_TEMPLATE_FILE)
             test_template.test_file_parser = file_parser
             test_template.write_template_result_in_file(gtest_file_tmp)
-            FileUtils.cp
+            FileUtils.mv(gtest_file_tmp, gtest_file, :force => true)
         end
 
         def make_pre_compile_files(file_parser)
-            raise '没有实现对应的 make_test_src方法，你需要实现具体的方法'
+            raise '没有实现对应的 make_pre_compile_files 方法，你需要实现具体的方法'
         end
     end
 end
