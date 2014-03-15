@@ -33,6 +33,16 @@ module SystemHelper
                 return false
         end
     end
-
     module_function :windows?
+
+    def is_x64?
+        case RUBY_PLATFORM
+            when /x86_64/
+                return true
+            else
+                return false
+        end
+    end
+
+    module_function :is_x64?
 end

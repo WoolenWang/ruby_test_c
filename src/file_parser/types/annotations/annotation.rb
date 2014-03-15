@@ -1,9 +1,8 @@
 # -*- encoding : utf-8 -*-
 require 'src/base_class'
-require 'src/file_parser/base_type'
 module FileParser
-    class UnitTestAnnotation < BaseClass
-        include Annotation
+    class Annotation < BaseClass
+        attr_accessor :raw_str
 
         def initialize(raw_str)
             @raw_str = raw_str

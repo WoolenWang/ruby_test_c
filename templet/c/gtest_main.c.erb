@@ -12,27 +12,23 @@
 #include "gtest/gtest.h"
 <%=
      include_str = ""
-     @test_include_files.each do |include_file|
+     include_files.each do |include_file|
          include_str << "#include \"#{include_file}\"\n"
      end
      include_str
 %>
-
-<%=
-     before_action_str = ""
-     @test_before_actions.each do |before_action|
+<%
+     test_user_cases.each do |user_case|
 #TODO 需要增加before action的解析部分
-        before_action_str<< "// \"#{before_action}\"\n"
-     end
-     before_action_str
 %>
+TEST(<%= test_file_name %>,<%= user_case.name %>)
+{
 <%=
-     user_case_str = ""
-     @test_user_cases.each do |user_case|
-#TODO 需要增加before action的解析部分
-         user_case_str << "// \"#{user_case}\"\n"
+    user_case.running_code
+%>
+}
+<%
      end
-     user_case_str
 %>
 int main(int argc, char** argv)
 {

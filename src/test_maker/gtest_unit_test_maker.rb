@@ -1,9 +1,12 @@
+# -*- encoding : utf-8 -*-
+require 'src/test_maker/base_unit_test_maker'
 module TestMaker
     class GTestUnitTestMaker < BaseUnitTestMaker
         GTEST_TEMPLATE_FILE = 'templet/c/gtest_main.c.erb'
+        GTEST_FILE_PREFIX = 'gtest_main_'
 
         def make_test_src(file_parser)
-            gtest_file = File.join(file_parser.file_path.dirname, GTEST_FILE_PREFIX + file_parser.file_path.basename)
+            gtest_file = File.join(file_parser.file_path.dirname, GTEST_FILE_PREFIX + File.basename(file_parser.file_path,'c'))
             gtest_file_tmp = gtest_file + '_tmp'
             File.delete gtest_file
             test_template = TemplateGTest.new(GTEST_TEMPLATE_FILE)

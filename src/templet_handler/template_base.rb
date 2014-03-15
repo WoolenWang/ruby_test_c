@@ -2,7 +2,7 @@
 require 'erb'
 module TemplateHandler
     class TemplateBase
-        attr_accessor :test_include_files
+        attr_accessor :include_files,:test_user_cases
 
         def initialize(file_path)
             @open_file_path = file_path

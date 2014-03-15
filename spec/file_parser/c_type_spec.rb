@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'rspec'
 require 'src/file_parser/c_file_parser'
-require 'src/file_parser/c_type'
+require 'src/file_parser/types/c_type'
 describe 'C语言的相关类型获取' do
 
     before :each do
@@ -23,7 +23,7 @@ describe 'C语言的相关类型获取' do
     end
 
     it 'should 获取user_case 0 个包含 return 3' do
-        @c_annotation.get_user_cases[0].expected_return.should include('2')
+        @c_annotation.get_user_cases[0].expected_str.should include('2')
     end
 
 end

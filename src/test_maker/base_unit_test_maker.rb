@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'src/base_class'
 module TestMaker
     class BaseUnitTestMaker < BaseClass

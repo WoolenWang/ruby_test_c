@@ -1,0 +1,42 @@
+# 包含的gtest头文件
+INCLUDE_FILE = -I <%= File.join(ConfigManager.project_root, 'framework', 'include')  %>
+# 测试用例源文件，后缀是cc
+SOURCE_NAME = <%= test_case_src_name %>
+# 测试用例目标可执行程序
+TARGET=$(SOURCE_NAME)_test
+#需要使用的.o文件，用于找到链接
+OBJS += foo.o
+#需要使用的共享库，用于找到链接
+LIBS += -lpthread
+#gtest main函数的静态库位置
+GTEST_FILE = <%= File.join(ConfigManager.project_root, 'framework', platform_str, 'libgmock.a')  %>
+GTEST_FILE += <%= File.join(ConfigManager.project_root, 'framework', platform_str, 'libgtest.a')  %>
+#版本头文件
+SHAREDHDR= <%= test_project_share_head_dir %>
+#版本库文件
+SHAREDLIB= <%= test_project_share_lib_dir %>
+#编译
+CC=libtool --mode=compile gcc $(INCLUDE_FILE)
+CXX=libtool --mode=compile g++ $(INCLUDE_FILE)
+
+#C_SOURCE=
+#$(wildcard *.cc)
+
+#CPP_SOURCE=
+#$(wildcard *.cpp)
+
+#C_OBJS=$(patsubst %.c,%.o,$(C_SOURCE))
+
+#CPP_OBJS=$(patsubst %.cpp,%.o,$(CPP_SOURCE))
+
+all:
+    $(CXX)
+    $(CXX) $(LIB) -g -O -c  $(SOURCE_NAME).cc $^
+#链接
+    libtool --mode=link g++ -g -O -o $(TARGET) $(SOURCE_NAME).o $(OBJS) $(GTEST_FILE)  -lm -L$(SHAREDLIB)  $(LIBS)
+
+clean:
+
+rm -f $(TARGET)
+
+rm -f $(SOURCE_NAME).o

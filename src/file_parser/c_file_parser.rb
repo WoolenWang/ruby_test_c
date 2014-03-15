@@ -1,12 +1,12 @@
 # -*- encoding : utf-8 -*-
 require 'src/file_parser/base_file_parser'
-require 'src/file_parser/unit_test_annotation'
-require 'src/file_parser/c_type'
+require 'src/file_parser/types/annotations/g_test_annotation'
+require 'src/file_parser/types/c_type'
 require 'digest/md5'
 module FileParser
     class C_FileParser < BaseFileParser
 
-        attr_accessor :functions,:include_files,:unit_test_annotations
+        attr_accessor :functions,:include_files,:unit_test_annotations,:functions_index
 
         def initialize(file_path)
             @functions = {}
@@ -76,7 +76,7 @@ module FileParser
             annotation_str_key = @file_str.index(annotation_str)
             0.upto(functions_index_key_array.length-1) do |i|
                 if functions_index_key_array[i] > annotation_str_key
-                    @functions_index[functions_index_key_array[i]].unit_test_annotation = FileParser::C_UnitTestAnnotation.new(annotation_str)
+                    @functions_index[functions_index_key_array[i]].unit_test_annotation = FileParser::GTestAnnotation.new(annotation_str,@functions_index[functions_index_key_array[i]])
                     return @functions_index[functions_index_key_array[i]]
                 end
             end
