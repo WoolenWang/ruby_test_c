@@ -61,7 +61,7 @@ module FileParser
 
         def get_before_actions_str(str)
             debug '获得的是annotation 字符串是：：' + str
-            debug BEFORE_ACTIONS_REGEX
+            debug "#{BEFORE_ACTIONS_REGEX}"
             after_action_str_match_data = BEFORE_ACTIONS_REGEX.match str
             if after_action_str_match_data.nil?
                 error '匹配不上数据，没有找到before_action'

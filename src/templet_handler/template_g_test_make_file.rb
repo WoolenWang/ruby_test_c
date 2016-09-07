@@ -1,8 +1,6 @@
 require 'src/templet_handler/template_base'
-require 'lib/system_helper'
 module TemplateHandler
     class TemplateGTestMakeFile < TemplateBase
-        include SystemHelper
         attr_accessor :file_parser,:test_case_src_name
 
         def initialize(open_file,file_parser=nil)
@@ -13,7 +11,7 @@ module TemplateHandler
         end
 
         def platform_str
-            if is_x64?
+            if WoolenCommon::SystemHelper.is_x64?
                 'x64'
             else
                 'x32'

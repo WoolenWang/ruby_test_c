@@ -5,7 +5,7 @@ require 'src/file_parser/c_file_parser'
 describe 'TemplateGTest' do
     describe 'write_template_result_in_file' do
         before :each do
-            @c_file_parser = FileParser::C_FileParser.new(File.join(ConfigManager.project_root, 'spec/test_data/foo_test/foo.c'))
+            @c_file_parser = FileParser::C_FileParser.new(File.join(WoolenCommon::ConfigManager.project_root, 'spec/test_data/foo_test/foo.c'))
             @c_file_parser.parse
         end
         it 'should 写出一个c源程序到tmp里面' do

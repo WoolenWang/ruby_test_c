@@ -1,5 +1,5 @@
 GEM
-  remote: http://ruby.taobao.org/
+  remote: http://200.200.0.35/
   specs:
     celluloid (0.15.2)
       timers (~> 1.1.0)
@@ -53,6 +53,8 @@ GEM
     spork (0.9.2)
     thor (0.18.1)
     timers (1.1.0)
+    woolen_common (0.0.5)
+      ffi
 
 PLATFORMS
   ruby
@@ -65,3 +67,7 @@ DEPENDENCIES
   rake
   rb-inotify (= 0.9.3)
   spork (= 0.9.2)
+  woolen_common
+
+BUNDLED WITH
+   1.12.5

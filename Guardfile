@@ -1,21 +1,22 @@
 # -*- encoding : utf-8 -*-
 # More info at https://github.com/guard/guard#readme
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__))
-require 'lib/logger'
+require 'woolen_common'
+WoolenCommon::setup(File.dirname(__FILE__))
 
 guard :rspec,:version => 2, :_run_all_after_pass => false do
   watch('spec/spec_helper.rb')  { 'spec' }
 
   watch(%r{^spec/(.+)_spec\.rb$}) { |m|
-      SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
+      WoolenCommon::SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
       "spec/#{m[1]}_spec.rb" }
 
   watch(%r{^src/(.+)\.rb$}) { |m|
-      SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
+      WoolenCommon::SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
       "spec/#{m[1]}_spec.rb"
   }
   watch(%r{^lib/(.+)\.rb$})     { |m|
-      SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
+      WoolenCommon::SingleLogger.get_logger.debug "开始执行测试：：spec/#{m[1]}_spec.rb"
       "spec/lib/#{m[1]}_spec.rb"
   }
   # Turnip features and steps

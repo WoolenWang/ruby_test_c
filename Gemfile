@@ -1,4 +1,11 @@
-source 'http://ruby.taobao.org'
+if File.exists?(File.realpath(File.join(File.dirname(__FILE__),'.ruby_env.rb')))
+    require File.realpath(File.join(File.dirname(__FILE__),'.ruby_env.rb')) rescue nil
+end
+if ENV['USE_TAOBAO_SOURCE']
+    source 'https://ruby.taobao.org'
+else
+    source 'http://200.200.0.35'
+end
 # 使用 guard-rspec来自动测试
 gem 'guard-rspec', '4.2.0'
 # 使用spork来加速自动测试
@@ -22,3 +29,5 @@ end
 gem 'rake'
 # 指定版本使用mocha进行mock对象
 gem 'mocha','0.14.0'
+# 使用woolen_common来做一些基础的日志什么的
+gem 'woolen_common'

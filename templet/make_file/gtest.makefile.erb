@@ -1,5 +1,5 @@
 # 包含的gtest头文件
-INCLUDE_FILE = -I <%= File.join(ConfigManager.project_root, 'framework', 'include')  %>
+INCLUDE_FILE = -I <%= File.join(WoolenCommon::ConfigManager.project_root, 'framework', 'include')  %>
 # 测试用例源文件，后缀是cc
 SOURCE_NAME = <%= test_case_src_name %>
 # 测试用例目标可执行程序
@@ -9,8 +9,8 @@ OBJS += foo.o
 #需要使用的共享库，用于找到链接
 LIBS += -lpthread
 #gtest main函数的静态库位置
-GTEST_FILE = <%= File.join(ConfigManager.project_root, 'framework', platform_str, 'libgmock.a')  %>
-GTEST_FILE += <%= File.join(ConfigManager.project_root, 'framework', platform_str, 'libgtest.a')  %>
+GTEST_FILE = <%= File.join(WoolenCommon::ConfigManager.project_root, 'framework', platform_str, 'libgmock.a')  %>
+GTEST_FILE += <%= File.join(WoolenCommon::ConfigManager.project_root, 'framework', platform_str, 'libgtest.a')  %>
 #版本头文件
 SHAREDHDR= <%= test_project_share_head_dir %>
 #版本库文件
