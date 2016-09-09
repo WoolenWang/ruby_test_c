@@ -21,7 +21,7 @@
      test_user_cases.each do |user_case|
 #TODO 需要增加before action的解析部分
 %>
-TEST(<%= test_file_name %>,<%= user_case.name %>)
+TEST(<%= test_file_name.gsub('.','_') %>,<%= user_case.name.gsub(':','_') %>)
 {
 <%=
     user_case.running_code
