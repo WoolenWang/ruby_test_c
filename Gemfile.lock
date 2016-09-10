@@ -1,5 +1,5 @@
 GEM
-  remote: http://200.200.0.35/
+  remote: https://ruby.taobao.org/
   specs:
     celluloid (0.15.2)
       timers (~> 1.1.0)
@@ -70,4 +70,4 @@ DEPENDENCIES
   woolen_common
 
 BUNDLED WITH
-   1.12.5
+   1.13.0

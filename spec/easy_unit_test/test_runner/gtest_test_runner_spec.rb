@@ -8,6 +8,6 @@ describe '运行测试' do
   end
 
   it 'should 运行一个文件的单侧' do
-    @test_runner.run(File.join(WoolenCommon::ConfigManager.project_root, 'spec/test_data/foo_test/foo.c'),false)
+    @test_runner.run(File.join(WoolenCommon::ConfigManager.project_root, 'spec/test_data/foo_test/foo.c'))
   end
 end
