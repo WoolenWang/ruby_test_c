@@ -1,5 +1,5 @@
 if File.exists?(File.realpath(File.join(File.dirname(__FILE__),'.ruby_env.rb')))
-    require File.realpath(File.join(File.dirname(__FILE__),'.ruby_env.rb')) rescue nil
+    load File.realpath(File.join(File.dirname(__FILE__),'.ruby_env.rb'))
 end
 if ENV['USE_TAOBAO_SOURCE']
     source 'https://ruby.taobao.org'
