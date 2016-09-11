@@ -16,15 +16,13 @@ rescue Bundler::BundlerError => e
     exit e.status_code
 end
 
-version = ">= 0"
-
 if ARGV.first =~ /^_(.*)_$/ and Gem::Version.correct? $1 then
     version = $1
     ARGV.shift
 end
 
-require "#{File.join(File.dirname(__FILE__),'config','initial_prj','initial')}"
 require 'bundler/setup'
 Bundler.require(:default)
-gem 'guard', version
-load Gem.bin_path('guard', 'guard', version)
+require 'guard'
+require 'guard/cli'
+Guard::CLI.start

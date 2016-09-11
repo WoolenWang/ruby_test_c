@@ -4,10 +4,14 @@ module EasyUnitTest
     class BaseClass
         include WoolenCommon::ToolLogger
         def platform_str
-            if WoolenCommon::SystemHelper.is_x64?
-                'x64'
+            if WoolenCommon::SystemHelper.windows?
+                'win32'
             else
-                'x32'
+                if WoolenCommon::SystemHelper.is_x64?
+                    'linux_x64'
+                else
+                    'linux_x32'
+                end
             end
         end
     end
