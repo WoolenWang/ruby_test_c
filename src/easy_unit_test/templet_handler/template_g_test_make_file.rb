@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'src/easy_unit_test/templet_handler/template_base'
 module EasyUnitTest
     module TemplateHandler

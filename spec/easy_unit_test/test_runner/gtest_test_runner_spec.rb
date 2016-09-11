@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'rspec'
 require 'spec/spec_helper'
 require 'src/easy_unit_test/test_runner/gtest_test_runner'

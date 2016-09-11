@@ -35,8 +35,16 @@ module EasyUnitTest
             end
 
             def run_compile_cmd(file_parser, out_file)
-                the_cmd = "g++ #{out_file} -I#{File.join(WoolenCommon::ConfigManager.project_root, 'framework/include')} -I#{File.dirname(file_parser.file_path)} -L#{File.join(WoolenCommon::ConfigManager.project_root, 'framework', platform_str)} -lgtest_main -lgtest -lgmock_main -lgmock -lpthread -o #{out_file}_test"
-                debug "the cmd\n #{the_cmd}"
+                gtest_include = File.join(WoolenCommon::ConfigManager.project_root, 'framework/google_test/googletest/include')
+                mock_include = File.join(WoolenCommon::ConfigManager.project_root, 'framework/google_test/googlemock/include')
+                platform_link = File.join(WoolenCommon::ConfigManager.project_root, 'framework', platform_str)
+                if WoolenCommon::SystemHelper.windows?
+                    pthread_link = '-lwinpthread'
+                else
+                    pthread_link = '-lpthread'
+                end
+                the_cmd = "g++ #{out_file} -I#{gtest_include} -I#{mock_include} -I#{File.dirname(file_parser.file_path)} -L#{platform_link} -lgtest -lgmock #{pthread_link} -o #{out_file}_test"
+                debug "the cmd\n#{the_cmd}"
                 ret = `#{the_cmd}`
                 debug ret
             end

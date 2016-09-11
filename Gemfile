@@ -1,8 +1,9 @@
+# -*- encoding : utf-8 -*-
 if File.exists?(File.realpath(File.join(File.dirname(__FILE__),'.ruby_env.rb')))
     load File.realpath(File.join(File.dirname(__FILE__),'.ruby_env.rb'))
 end
-if ENV['USE_TAOBAO_SOURCE']
-    source 'https://ruby.taobao.org'
+if ENV['IN_CHINA']
+    source 'http://gems.ruby-china.org/'
 else
     source 'http://200.200.0.35'
 end
@@ -17,7 +18,9 @@ case RUBY_PLATFORM
     when /mswin|msys|mingw|cygwin|bccwin|wince|emc/ # 这里是windows，貌似好多种可能的编译器出来的，现在大多都是mingw的了
         gem 'rb-fchange'
         gem 'rb-notifu'
-        gem 'win32console'
+        require 'rbconfig'
+        gem 'wdm', '>= 0.1.0' if RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i
+        # gem 'win32console'
     when /linux/ # 这里是linux的
         gem 'rb-inotify', '0.9.3'
         gem 'libnotify', '0.8.2'
@@ -27,6 +30,7 @@ case RUBY_PLATFORM
 end
 # 要使用rake
 gem 'rake'
+gem 'magic_encoding', '~> 0.0.2'
 # 指定版本使用mocha进行mock对象
 gem 'mocha','0.14.0'
 # 使用woolen_common来做一些基础的日志什么的

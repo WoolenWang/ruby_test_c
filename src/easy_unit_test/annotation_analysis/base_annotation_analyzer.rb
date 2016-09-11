@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'singleton'
 require 'src/easy_unit_test/base_class'
 require 'src/easy_unit_test/file_parser/base_type'
